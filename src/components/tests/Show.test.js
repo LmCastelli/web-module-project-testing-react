@@ -6,12 +6,38 @@ import Show from './../Show';
 
 const testShow = {
     //add in approprate test data structure here.
+    name: "The cool show",
+    summary: "This show is pretty cool",
+    seasons: [
+        {
+            id:1,
+            name: 'season 1',
+            episodes:[]
+        },
+        {
+            id:2,
+            name: 'season 2',
+            episodes:[]
+        },
+        {
+            id:3,
+            name: 'season 3',
+            episodes:[]
+        }
+    ]
 }
 
 test('renders testShow and no selected Season without errors', ()=>{
+    render(<Show show={testShow} selectedSeason={'none'}/>)
+    console.log(testShow)
 });
 
-test('renders Loading component when prop show is null', () => {
+test('renders Loading component when prop show is null', async () => {
+    render(<Show/>);
+
+    const loading = await screen.findByTestId("loading-container");
+    expect(loading).toBeInTheDocument();
+    
 });
 
 test('renders same number of options seasons are passed in', ()=>{

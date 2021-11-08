@@ -8,7 +8,17 @@ const testEpisode = {
     image: "http://static.tvmaze.com/uploads/images/medium_landscape/67/168918.jpg",
     season: 1,
     number: 1,
-    summary: "",
+    summary: "This episode was so crazy!",
+    runtime: 1
+}
+
+const testEpisode2 = {
+    id:2,
+    name: "",
+    image: null,
+    season: 1,
+    number: 1,
+    summary: "This episode was so crazy!",
     runtime: 1
 }
 
@@ -17,14 +27,26 @@ const testEpisodeWithoutImage = {
 }
 
 test("renders without error", () => {
-
+    render(<Episode episode={testEpisode}/>);
 });
 
-test("renders the summury test passed as prop", ()=>{
+test("renders the summury test passed as prop", async ()=>{
+    render(<Episode episode={testEpisode}/>);
+
+    const summary = await screen.findByText(/this episode was so crazy/i);
+
+    expect(summary).toBeInTheDocument();
+    expect(summary).toBeTruthy();
+    expect(summary).not.toBeFalsy();
+
     
 });
 
-test("renders default image when image is not defined", ()=>{
+test("renders default image when image is not defined", async ()=>{
+    
+    render(<Episode episode={testEpisode2}/>);
+
+    expect(testEpisode2.image).toEqual(null)
     
 })
 
