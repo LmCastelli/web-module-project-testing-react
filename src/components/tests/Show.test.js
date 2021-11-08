@@ -12,7 +12,7 @@ const testShow = {
         {
             id:1,
             name: 'season 1',
-            episodes:[]
+            episodes:["crazy", "stuff", "here"]
         },
         {
             id:2,
@@ -29,7 +29,7 @@ const testShow = {
 
 test('renders testShow and no selected Season without errors', ()=>{
     render(<Show show={testShow} selectedSeason={'none'}/>)
-    console.log(testShow)
+    
 });
 
 test('renders Loading component when prop show is null', async () => {
@@ -40,13 +40,43 @@ test('renders Loading component when prop show is null', async () => {
     
 });
 
-test('renders same number of options seasons are passed in', ()=>{
+test('renders same number of options seasons are passed in', async ()=>{
+    render(<Show show={testShow} selectedSeason={'none'}/>);
+
+    
+    
+    
+    const options = await screen.findAllByTestId("season-option")
+    
+    expect(options).toHaveLength(3);
+    
+    
+    
 });
 
 test('handleSelect is called when an season is selected', () => {
+
+    const fakeHandlSelect = jest.fn();
+
+    render(<Show show={testShow} selectedSeason={'none'} handleSelect={fakeHandlSelect}/>);
+
+    userEvent.selectOptions(screen.getByRole('combobox'), ['1'])
+
+    expect(fakeHandlSelect).toHaveBeenCalled();
 });
 
 test('component renders when no seasons are selected and when rerenders with a season passed in', () => {
+    const {rerender} = render(<Show show={testShow} selectedSeason={'none'} />)
+
+    let episodes = screen.queryAllByTestId("episodes-container");
+
+    expect(episodes).toHaveLength(0);
+
+    rerender(<Show show={testShow} selectedSeason={2}/>)
+    
+    
+    const message = screen.getByText(/episode/i);
+    expect(message).toBeInTheDocument();
 });
 
 //Tasks:
