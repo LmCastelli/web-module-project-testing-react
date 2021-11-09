@@ -46,8 +46,9 @@ test("renders default image when image is not defined", async ()=>{
     
     render(<Episode episode={testEpisode2}/>);
 
-    expect(testEpisode2.image).toEqual(null)
+    const image = screen.queryByAltText('./stranger_things.png')
     
+    expect(image).toBeInTheDocument();
 })
 
 //Tasks
